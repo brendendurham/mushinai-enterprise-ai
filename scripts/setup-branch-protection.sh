@@ -19,22 +19,28 @@ if ! gh auth status &> /dev/null; then
     exit 1
 fi
 
-# Set up branch protection rules
+# Set up branch protection rules using JSON input
 gh api \
   --method PUT \
   -H "Accept: application/vnd.github.v3+json" \
   /repos/brendendurham/mushinai-enterprise-ai/branches/main/protection \
-  -f "required_status_checks[strict]=true" \
-  -f "required_status_checks[contexts][]=test-python" \
-  -f "required_status_checks[contexts][]=test-nodejs" \
-  -f "required_status_checks[contexts][]=security-check" \
-  -f "enforce_admins=false" \
-  -f "required_pull_request_reviews[required_approving_review_count]=1" \
-  -f "required_pull_request_reviews[dismiss_stale_reviews]=true" \
-  -f "required_pull_request_reviews[require_code_owner_reviews]=true" \
-  -f "restrictions=null" \
-  -f "allow_force_pushes=false" \
-  -f "allow_deletions=false"
+  --input - <<EOF
+{
+  "required_status_checks": {
+    "strict": true,
+    "contexts": ["test-python", "test-nodejs", "security-check"]
+  },
+  "enforce_admins": true,
+  "required_pull_request_reviews": {
+    "required_approving_review_count": 1,
+    "dismiss_stale_reviews": true,
+    "require_code_owner_reviews": true
+  },
+  "restrictions": null,
+  "allow_force_pushes": false,
+  "allow_deletions": false
+}
+EOF
 
 if [ $? -eq 0 ]; then
     echo "✅ Branch protection rules successfully applied to main branch!"
