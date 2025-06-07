@@ -19,11 +19,20 @@ if ! gh auth status &> /dev/null; then
     exit 1
 fi
 
+# Determine repository slug (owner/repo)
+REPO=${GITHUB_REPOSITORY:-$(git config --get remote.origin.url | \
+  sed -n 's#.*github.com[:/]\(.*\)\.git#\1#p')}
+
+if [ -z "$REPO" ]; then
+    echo "Unable to determine repository. Set GITHUB_REPOSITORY environment variable."
+    exit 1
+fi
+
 # Set up branch protection rules using JSON input
 gh api \
   --method PUT \
   -H "Accept: application/vnd.github.v3+json" \
-  /repos/brendendurham/mushinai-enterprise-ai/branches/main/protection \
+  /repos/${REPO}/branches/main/protection \
   --input - <<EOF
 {
   "required_status_checks": {
