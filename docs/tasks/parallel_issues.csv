@@ -1,0 +1,11 @@
+id,title,body,labels
+1,Setup REST API skeleton,Create the basic FastAPI skeleton under api/rest/v1,backend
+2,Implement authentication service,Add JWT-based authentication with user roles,backend
+3,Configure GraphQL API,Build initial GraphQL schema and resolver layout,backend
+4,Add Salesforce integration,Create integration module to sync data with Salesforce,integrations
+5,Implement Kubernetes deployment,Setup Helm charts and deployment pipelines,infra
+6,Implement user dashboard frontend,Create React dashboard for user analytics,frontend
+7,Create billing service,Build microservice for subscription management,backend
+8,Set up CI/CD with GitHub Actions,Automate tests and deployment pipelines,devops
+9,Write unit tests for core modules,Increase test coverage to 80%,testing
+10,Add logging and monitoring stack,Integrate Prometheus and Grafana for monitoring,infra
